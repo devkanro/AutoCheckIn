@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="AutoCheckIn.SignLog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:AutoCheckIn"
+             xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:binding="clr-namespace:AutoCheckIn.Binding"
+             xmlns:vm="clr-namespace:AutoCheckIn.ViewModels"
+             Foreground="#444"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type vm:ApplicationViewModel}}">
+    <wpf:Card Margin="12">
+        <Grid>
+            <local:BlockedCalendar Style="{StaticResource MaterialDesignCalendarPortrait}" Margin="0,-4,0,0" SelectionMode="MultipleRange" binding:CalendarDatesBindingHelper.BindedDates="{Binding CheckInDates}" />
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0">
+                <Grid.ToolTip>
+                    <ToolTip Content="{Binding DisplayName}" />
+                </Grid.ToolTip>
+                <Ellipse Width="28" Height="28"  Fill="#CCC" />
+                <TextBlock Text="&#xE290;" AllowDrop="True" FontFamily="/AutoCheckIn;component/Assets/#icomoon" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"></TextBlock>
+                <Ellipse Width="28" Height="28" Stroke="White" StrokeThickness="1.5">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding DisplayAvatarUrl}" />
+                    </Ellipse.Fill>
+                </Ellipse>
+            </Grid>
+        </Grid>
+    </wpf:Card>
+</UserControl>

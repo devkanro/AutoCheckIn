@@ -1,0 +1,50 @@
+﻿<Window x:Class="AutoCheckIn.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoCheckIn"
+        xmlns:vm="clr-namespace:AutoCheckIn.ViewModels"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        d:DataContext="{d:DesignInstance {x:Type vm:AboutWindowViewModel}}"
+        Title="关于" Height="240" Width="350" Icon="Assets/Icon.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="24">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock FontFamily="/AutoCheckIn;component/Assets/#icomoon" Text="&#xe25b;" Style="{DynamicResource MaterialDesignDisplay4TextBlock}" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock.ToolTip>
+                <ToolTip Content="AutoCheckIn" />
+            </TextBlock.ToolTip>
+        </TextBlock>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock Style="{DynamicResource MaterialDesignHeadlineTextBlock}" Text="AutoCheckIn" />
+            <TextBlock Style="{DynamicResource MaterialDesignCaptionTextBlock}" Text="{Binding Version}" />
+            <TextBlock Style="{DynamicResource MaterialDesignCaptionTextBlock}" Text="© 2016 HIGAN" />
+            <TextBlock Style="{DynamicResource MaterialDesignSubheadingTextBlock}" TextWrapping="Wrap" Text="用于天使动漫论坛的自动签到与记录工具。" Margin="0,8,0,0" />
+        </StackPanel>
+
+        <Button Grid.Column="1" IsCancel="True" Margin="0" Style="{DynamicResource MaterialDesignFlatButton}"  Command="{Binding CheckUpdateCommand}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LoginWindow}}}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button.ToolTip>
+                <ToolTip Content="检查应用是否有新版本可用。" />
+            </Button.ToolTip>
+            检查更新
+        </Button>
+    </Grid>
+</Window>

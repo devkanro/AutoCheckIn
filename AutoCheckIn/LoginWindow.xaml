@@ -1,0 +1,196 @@
+﻿<Window x:Class="AutoCheckIn.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoCheckIn"
+        xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:binding="clr-namespace:AutoCheckIn.Binding"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:vm="clr-namespace:AutoCheckIn.ViewModels"
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance {x:Type vm:LoginWindowViewModel}}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Title="登录" Height="360" Width="560" Icon="Assets/Icon.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PasswordBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <wpf:DialogHost>
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="登录" Style="{DynamicResource MaterialDesignHeadlineTextBlock}"></TextBlock>
+            <TextBlock Grid.Row="1" Text="提供您的账户密码或者验证问题来登录到天使。" Style="{DynamicResource MaterialDesignSubheadingTextBlock}"></TextBlock>
+            <Grid Grid.Row="2" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="41" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="36" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="41" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox x:Name="AccoutType" Style="{DynamicResource MaterialDesignComboBox}" FontFamily="/AutoCheckIn;component/Assets/#icomoon"
+                      FontSize="24" Foreground="{Binding ElementName=Accout, Path=BorderBrush}" IsEditable="False"
+                      VerticalAlignment="Center" HorizontalAlignment="Left" BorderThickness="0" Margin="0"
+                      SelectedIndex="{Binding AccoutType}">
+                    <ComboBox.ToolTip>
+                        <ToolTip Content="变更登录使用的凭据。"></ToolTip>
+                    </ComboBox.ToolTip>
+                    <ComboBoxItem Content="&#xE268;">
+                        <ComboBoxItem.ToolTip>
+                            <ToolTip Content="使用用户名登陆。"></ToolTip>
+                        </ComboBoxItem.ToolTip>
+                    </ComboBoxItem>
+                    <ComboBoxItem Content="&#xe285;">
+                        <ComboBoxItem.ToolTip>
+                            <ToolTip Content="使用 UID 登陆。"></ToolTip>
+                        </ComboBoxItem.ToolTip>
+                    </ComboBoxItem>
+                    <ComboBoxItem Content="&#xe07c;">
+                        <ComboBoxItem.ToolTip>
+                            <ToolTip Content="使用邮箱登陆。"></ToolTip>
+                        </ComboBoxItem.ToolTip>
+                    </ComboBoxItem>
+                </ComboBox>
+
+                <TextBox x:Name="Accout" wpf:HintAssist.Hint="{Binding DisplayAccoutType}" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                  FontSize="18" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top">
+                    <TextBox.Text>
+                        <Binding Path="Accout" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <TextBlock FontFamily="/AutoCheckIn;component/Assets/#icomoon" Text="&#xE063;" FontSize="24" VerticalAlignment="Center" Grid.Row="1" Margin="0"
+                       Foreground="{Binding ElementName=Password, Path=BorderBrush}">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="密码。" />
+                    </TextBlock.ToolTip>
+                </TextBlock>
+                <PasswordBox x:Name="Password" wpf:HintAssist.Hint="密码" Style="{DynamicResource MaterialDesignPasswordBox}"
+                 binding:PasswordBoxBindingHelper.IsPasswordBindingEnabled="True"
+                 FontSize="18" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top">
+                    <binding:PasswordBoxBindingHelper.BindedPassword>
+                        <Binding Path="Password" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </binding:PasswordBoxBindingHelper.BindedPassword>
+                </PasswordBox>
+
+                <ComboBox wpf:HintAssist.Hint="登录验证问题" IsEditable="False" FontSize="18" SelectedIndex="{Binding VerifyQuestionIndex}"
+                Style="{DynamicResource MaterialDesignFloatingHintComboBox}" Grid.Column="1" VerticalAlignment="Top" Grid.Row="2">
+                    <ComboBox.ToolTip>
+                        <ToolTip Content="请选择安全登录验证问题，如果没有请选择无。" />
+                    </ComboBox.ToolTip>
+                    <ComboBoxItem Content="无登录验证问题" />
+                    <ComboBoxItem Content="母亲的名字" />
+                    <ComboBoxItem Content="爷爷的名字" />
+                    <ComboBoxItem Content="父亲出生的城市" />
+                    <ComboBoxItem Content="你其中一位老师的名字" />
+                    <ComboBoxItem Content="你个人计算机的型号" />
+                    <ComboBoxItem Content="你最喜欢的餐馆的名字" />
+                    <ComboBoxItem Content="驾驶执照最后四位数字" />
+                </ComboBox>
+
+                <TextBlock FontFamily="/AutoCheckIn;component/Assets/#icomoon" Text="&#xe2c3;" FontSize="24" VerticalAlignment="Center" Grid.Row="3" Margin="0,0,17,0"
+                       Foreground="{Binding ElementName=Answer, Path=BorderBrush}" HorizontalAlignment="Left">
+                    <TextBlock.ToolTip>
+                        <ToolTip Content="安全登录验证回答。" />
+                    </TextBlock.ToolTip>
+                </TextBlock>
+                <TextBox x:Name="Answer" wpf:HintAssist.Hint="验证回答" Style="{DynamicResource MaterialDesignTextBox}"
+                  FontSize="18" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top"
+                     Text ="{Binding VerifyAnswer, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.ToolTip>
+                        <ToolTip Content="请输入安全验证问题回答，如果没有则不填。" />
+                    </TextBox.ToolTip>
+                </TextBox>
+
+                <TextBlock Text="请输入验证码" Style="{DynamicResource MaterialDesignHeadlineTextBlock}" Grid.Column="3" VerticalAlignment="Center"></TextBlock>
+
+                <Border Background="#89000000" Width="188" Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" CornerRadius="4" HorizontalAlignment="Left">
+                    <Border.ToolTip>
+                        <ToolTip Content="验证码图片。" />
+                    </Border.ToolTip>
+                    <Grid>
+                        <TextBlock FontFamily="/AutoCheckIn;component/Assets/#icomoon" Text="&#xE1C2;" FontSize="32" VerticalAlignment="Center" Grid.Row="3" Margin="0"
+                       Foreground="{DynamicResource MaterialDesignBackground}" HorizontalAlignment="Center" />
+                        <Rectangle x:Name="VerifyCode" RadiusX="4" RadiusY="4">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="{Binding VerifyCodeImage}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Grid>
+                </Border>
+
+                <Button Style="{DynamicResource MaterialDesignRaisedButton}" Command="{Binding RefreshVerifyCodeCommand}" Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Height="Auto" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="8,4,8,4" Margin="4,0,0,0">
+                    <Button.ToolTip>
+                        <ToolTip Content="刷新验证码图片。" />
+                    </Button.ToolTip>
+                    <TextBlock FontFamily="/AutoCheckIn;component/Assets/#icomoon" Text="&#xe00e;" FontSize="24" VerticalAlignment="Center"
+                       Foreground="{DynamicResource MaterialDesignBackground}" HorizontalAlignment="Center" />
+                </Button>
+
+                <!--<TextBlock  Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2"   Text="请在下面输入图片上的文字，以帮助我们验证您不是机器人。" Style="{DynamicResource MaterialDesignCaptionTextBlock}" VerticalAlignment="Center" TextWrapping="WrapWithOverflow"></TextBlock>-->
+
+                <TextBox    wpf:HintAssist.Hint="验证码" Style="{DynamicResource MaterialDesignTextBox}"
+                  FontSize="18" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Top">
+                    <TextBox.ToolTip>
+                        <ToolTip Content="请输入上图中的文字，表明您不是机器人。" />
+                    </TextBox.ToolTip>
+                    <TextBox.Text>
+                        <Binding Path="VerifyCode" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+
+            <Grid Grid.Row="3" Width="250" HorizontalAlignment="Right" Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button IsDefault="True" Margin="8,0" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding LoginCommand}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type wpf:DialogHost}}}">
+                    <Button.ToolTip>
+                        <ToolTip Content="登录。" />
+                    </Button.ToolTip>
+                    登录
+                </Button>
+                <Button Grid.Column="1" IsCancel="True" Margin="8,0" Style="{DynamicResource MaterialDesignFlatButton}"  Command="{Binding CancelCommand}" CommandParameter="{Binding Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LoginWindow}}}">
+                    <Button.ToolTip>
+                        <ToolTip Content="取消登录。" />
+                    </Button.ToolTip>
+                    取消
+                </Button>
+            </Grid>
+        </Grid>
+    </wpf:DialogHost>
+</Window>
